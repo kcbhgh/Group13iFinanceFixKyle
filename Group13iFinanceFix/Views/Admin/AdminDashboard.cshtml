@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Group13iFinanceFix.Models.iFINANCEUser>
+
+@{
+    ViewBag.Title = "Admin Dashboard";
+    var adminIDs = ViewBag.AdminIDs as List<string> ?? new List<string>(); // Get list of admin IDs from ViewBag
+}
+
+<h2>Registered Users</h2>
+
+<!-- Make a button for register new users -->
+<div class="mb-3 text-end">
+    <a href="@Url.Action("Register", "Account")" class="btn btn-success">Register New User</a>
+</div>
+
+<table class="table">
+    <thead>
+        <!-- Table headers for user ID, username, and action buttons -->
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through each user in the model list and display ID and Usersname -->
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.ID</td>
+                <td>@user.UsersName</td>
+                <td>
+                    @if (!adminIDs.Contains(user.ID))  // Only show Edit button for non-admins
+                    {
+                        <a href="@Url.Action("EditUser", "Admin", new { id = user.ID })" class="btn btn-sm btn-primary">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
